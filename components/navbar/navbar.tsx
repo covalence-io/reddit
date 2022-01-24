@@ -8,11 +8,7 @@ export default function Navbar() {
                     {/* Application Logo */}
                     <div className="relative z-10 px-2 flex lg:px-0">
                         <div className="flex-shrink-0 flex items-center">
-                            <img
-                                className="block h-8 w-auto"
-                                src="/logos/subreddit.png"
-                                alt="SubReddit"
-                            />
+                            <img className="block h-8 w-auto" src="/logos/subreddit.png" alt="SubReddit" />
                         </div>
                     </div>
                 </div>
