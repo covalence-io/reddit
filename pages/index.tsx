@@ -15,21 +15,28 @@ import {
     SUFFIX,
 } from '../utils';
 
+const DEFAULT_POST_LIMIT = 10;
+
 interface IProps {
     postRes: models.IRedditResponse;
+    subreddit: string;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+    const query = context.query;
+    let subreddit = query.s;
+
+    if (isEmpty(subreddit)) {
+        subreddit = ALL_POSTS;
+    }
+
+    if (isEmpty(query.limit)) {
+        query.limit = DEFAULT_POST_LIMIT.toString();
+    }
+
+    delete query.s;
+
     try {
-        const query = context.query;
-        let subreddit = query.s;
-
-        if (isEmpty(subreddit)) {
-            subreddit = ALL_POSTS;
-        }
-
-        delete query.s;
-
         const response = await fetch(
             `${BASE_URL}${SUBREDDIT_PATH}${subreddit}${SUFFIX}${serializeQuery(
                 query
@@ -41,18 +48,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return {
             props: {
                 postRes: jRes,
+                subreddit,
             },
         };
     } catch (e) {
         return {
             props: {
                 postRes: null,
+                subreddit,
             },
         };
     }
 };
 
-const Home: NextPage<IProps> = ({ postRes }: IProps) => {
+const Home: NextPage<IProps> = ({ postRes, subreddit }: IProps) => {
     // const [posts, setPosts] = useState([] as models.IRedditPost[]);
     // const getPosts = async () => {
     //   try {
@@ -100,6 +109,13 @@ const Home: NextPage<IProps> = ({ postRes }: IProps) => {
             <Navbar />
             <div className="relative bg-gray-100 pt-24 lg:pt-28 pb-16 min-h-screen">
                 <main>
+                    <div className="absolute top-20 text-xs text-center w-full font-bold">
+                        <span>
+                            {!isEmpty(subreddit) && subreddit !== ALL_POSTS
+                                ? `/r/${subreddit}`
+                                : ''}
+                        </span>
+                    </div>
                     <List posts={postRes?.data?.children} />
                 </main>
                 <Footer />
