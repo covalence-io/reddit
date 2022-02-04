@@ -15,7 +15,7 @@ export default function List({ posts }: IProps) {
     }
 
     return (
-        <div className="max-w-2xl mx-auto pt-1 pb-10">
+        <div className="pt-1 pb-5">
             <div>
                 {posts.map((p) => {
                     const pdata = p.data;
