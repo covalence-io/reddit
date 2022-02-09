@@ -15,6 +15,7 @@ import {
     ALL_POSTS,
     BASE_URL,
     isEmpty,
+    isObject,
     serializeQuery,
     SUBREDDIT_PATH,
     SUFFIX,
@@ -90,6 +91,22 @@ const Home: NextPage<IProps> = ({ postRes, subreddit, query }: IProps) => {
     //   getPosts();
     // }, []);
 
+    const [dark, setDark] = useState(false);
+    const themeChanged = (val: boolean) => {
+        setDark(val === true);
+    };
+
+    useEffect(() => {
+        if (
+            !isObject(window) ||
+            !window.matchMedia('(prefers-color-scheme: dark)').matches
+        ) {
+            return;
+        }
+
+        setDark(true);
+    }, []);
+
     const limit = Number(query.limit);
     const pdata = postRes?.data;
     let after = pdata?.after;
@@ -131,7 +148,7 @@ const Home: NextPage<IProps> = ({ postRes, subreddit, query }: IProps) => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${dark ? 'dark' : 'light'}`}>
             <Head>
                 <title>SubReddit</title>
                 <meta
@@ -158,8 +175,8 @@ const Home: NextPage<IProps> = ({ postRes, subreddit, query }: IProps) => {
                 <link rel="icon" href="/favicon/favicon.ico" />
                 <link rel="manifest" href="/favicon/site.webmanifest" />
             </Head>
-            <Navbar />
-            <div className="relative bg-gray-100 pt-24 lg:pt-28 pb-16 min-h-screen">
+            <Navbar dark={dark} onThemeChanged={themeChanged} />
+            <div className="relative bg-gray-100 pt-24 lg:pt-28 pb-16 min-h-screen dark:bg-gray-800 dark:text-white">
                 <main>
                     <div className="absolute top-20 text-xs text-center w-full font-bold">
                         <span>{hasSub ? `/r/${subreddit}` : ''}</span>
@@ -169,7 +186,7 @@ const Home: NextPage<IProps> = ({ postRes, subreddit, query }: IProps) => {
                         <div className="flex justify-between text-sm text-gray-500 font-medium">
                             <Link href={`/${serializeQuery(bQuery)}`}>
                                 <a
-                                    className={`flex items-center justify-center py-3${
+                                    className={`flex items-center justify-center py-3 hover:text-gray-900 dark:hover:text-gray-300${
                                         isEmpty(bQuery.before)
                                             ? ' invisible'
                                             : ''
@@ -180,7 +197,7 @@ const Home: NextPage<IProps> = ({ postRes, subreddit, query }: IProps) => {
                             </Link>
                             <Link href={`/${serializeQuery(aQuery)}`}>
                                 <a
-                                    className={`flex items-center justify-center py-3${
+                                    className={`flex items-center justify-center py-3 hover:text-gray-900 dark:hover:text-gray-300${
                                         isEmpty(aQuery.after)
                                             ? ' invisible'
                                             : ''

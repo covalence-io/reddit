@@ -22,7 +22,7 @@ export default function List({ posts }: IProps) {
 
                     return (
                         <a
-                            className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 my-2 hover:border-gray-400"
+                            className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 my-2 hover:border-gray-400 dark:border-gray-700 dark:hover:border-gray-300 dark:bg-black dark:text-white"
                             href={
                                 isEmpty(pdata.permalink)
                                     ? BASE_URL
@@ -39,7 +39,7 @@ export default function List({ posts }: IProps) {
                                 />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-gray-900">
+                                <p className="text-sm font-medium text-gray-900 dark:text-white">
                                     {pdata.title}
                                 </p>
                                 <p className="text-xs text-gray-500 truncate">
