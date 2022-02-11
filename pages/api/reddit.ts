@@ -8,7 +8,7 @@ import {
     SUFFIX,
 } from '../../utils';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     switch (req.method) {
         case 'GET':
             try {
@@ -40,3 +40,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             break;
     }
 };
+
+export default handler;
