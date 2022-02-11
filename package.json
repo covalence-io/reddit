@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --loglevel warn --write \"{components,pages,utils}/**/*.{ts,tsx}\"",
+    "format": "prettier --loglevel warn --write \"{components,pages,types,utils}/**/*.{ts,tsx}\"",
     "lint": "next lint"
   },
   "dependencies": {
